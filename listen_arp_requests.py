@@ -18,9 +18,9 @@ def arp_display(pkt):
             if pkt[ARP].hwsrc in arp:
                 print 'Pushed %s (%s)' % (arp[pkt[ARP].hwsrc], pkt[ARP].hwsrc,)
             else:
-              print 'ARP probe from unknown device: %s' % (pkt[ARP].hwsrc,)
+                print 'ARP probe from unknown device: %s' % (pkt[ARP].hwsrc,)
 
 while True:
-  sniff(prn=arp_display, filter='arp', store=0, count=10)
-  time.sleep(1)
+    sniff(prn=arp_display, filter='arp', store=0, count=10)
+    time.sleep(1)
 

@@ -5,7 +5,7 @@ https://gist.github.com/tcyrus/d32f4aba0b6ef9a961d3
 https://gist.github.com/eob/d2d1eec8fad32e8bcb6e
 """
 
-from scapy.all import *
+from scapy.all import ARP, sniff
 
 import time
 

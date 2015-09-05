@@ -4,7 +4,7 @@
 https://gist.github.com/eob/a8b5632f23e75b311df2
 """
 
-from scapy.all import *
+from scapy.all import ARP, sniff
 
 
 def arp_display(pkt):

@@ -1,15 +1,9 @@
 #!/usr/bin/env python
 
-"""
-https://gist.github.com/tcyrus/d32f4aba0b6ef9a961d3
-https://gist.github.com/eob/d2d1eec8fad32e8bcb6e
-"""
-
 from scapy.all import ARP, sniff
 
 import argparse
 import subprocess
-import time
 
 
 parser = argparse.ArgumentParser('Runs executable when an ARP probe is performed by a given MAC.')
@@ -38,10 +32,11 @@ class ARPListener(object):
             subprocess.Popen(['nohup'] + executable_atoms)
 
     def listen(self, pause_duration=1):
+        """Blocking function listening for ARP probes and calling `callback` function or executing
+        `executable` upon reception of an ARP probe for the `MAC` address.
+        """
         arp_callback = lambda pkt: self._arp_callback(pkt)
-        while True:
-            sniff(prn=arp_callback, filter='arp', store=0, count=10)
-            time.sleep(pause_duration)
+        sniff(prn=arp_callback, filter='arp', store=0, count=0)
 
 
 if __name__ == '__main__':

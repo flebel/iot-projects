@@ -9,6 +9,7 @@ void setup()
     b.begin();
 
     Spark.function("led", led);
+    Spark.function("leds_upto", leds_upto);
 }
 
 void loop()
@@ -49,5 +50,31 @@ int led(String command) {
         return 0;
     }
     return -1;
+}
+
+int leds_upto(String led_number) {
+    b.allLedsOff();
+    int max_number_loops = 3;
+    for (int led = 0, leds = led_number.toInt(), loops = 0; led < leds && loops <= max_number_loops; led++) {
+        if (led < 4) {
+            b.ledOn(led, 0, 255, 0);
+        } else if (led < 7) {
+            b.ledOn(led, 255, 255, 0);
+        } else if (led < 9) {
+            b.ledOn(led, 255, 165, 0);
+        } else {
+            b.ledOn(led, 255, 0, 0);
+        }
+        delay(75);
+        if (led == (leds - 1) && leds > 7) {
+            if (loops < max_number_loops) {
+                b.allLedsOff();
+            }
+            led = 0;
+            loops++;
+            delay(250);
+        }
+    }
+    return 1;
 }
 

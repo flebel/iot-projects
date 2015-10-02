@@ -2,6 +2,7 @@
 
 
 InternetButton b = InternetButton();
+int lastLedTurnedOn = 0;
 bool urgentMode = false;
 
 void setup()
@@ -52,9 +53,18 @@ int led(String command) {
 }
 
 int ledsUpto(String ledNumber) {
-    b.allLedsOff();
     int maxNumberLoops = 3;
-    for (int led = 0, leds = ledNumber.toInt(), loops = 0; led < leds && loops <= maxNumberLoops; led++) {
+    int numberLeds = ledNumber.toInt();
+
+    // Turn off LEDs that won't be ON during this cycle
+    for (int led = lastLedTurnedOn + 1; led < 12; led++) {
+        b.ledOff(led);
+    }
+    if (numberLeds < lastLedTurnedOn) {
+        b.ledOff(lastLedTurnedOn);
+    }
+
+    for (int led = 0, loops = 0; led <= numberLeds && loops <= maxNumberLoops; led++) {
         if (led < 4) {
             b.ledOn(led, 0, 255, 0);
         } else if (led < 7) {
@@ -64,8 +74,10 @@ int ledsUpto(String ledNumber) {
         } else {
             b.ledOn(led, 255, 0, 0);
         }
-        delay(75);
-        if (led == (leds - 1) && leds > 7) {
+        delay(50);
+
+        // Run the loop again, to ensure this light show gets noticed
+        if (led == numberLeds && numberLeds > 7) {
             if (loops < maxNumberLoops) {
                 b.allLedsOff();
             }
@@ -74,6 +86,7 @@ int ledsUpto(String ledNumber) {
             delay(250);
         }
     }
+    lastLedTurnedOn = numberLeds;
     return 1;
 }
 

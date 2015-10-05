@@ -16,13 +16,11 @@ void setup()
 void loop()
 {
    if (b.allButtonsOn()) {
-       if (urgentMode == true) {
-           urgentMode = false;
-           b.playNote("G5", 8);
-           b.allLedsOn(255, 0, 0);
-           delay(500);
-           b.allLedsOff();
-       }
+       urgentMode = false;
+       b.playNote("G5", 8);
+       b.allLedsOn(255, 0, 0);
+       delay(500);
+       b.allLedsOff();
    } else if (urgentMode == true) {
         for (int led = 1; led < 12; led++) {
             b.ledOff(led - 1);

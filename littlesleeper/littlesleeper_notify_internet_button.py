@@ -11,11 +11,11 @@ parser.add_argument('--config', default='default.conf', dest='config_file', help
 
 def run(number_leds, config):
     device_id = config.get('particle', 'device_id')
-    headers = {
-        'access_token': config.get('particle', 'access_token'),
-        'params': number_leds,
+    access_token = config.get('particle', 'access_token')
+    payload = {
+        'arg': number_leds,
     }
-    requests.post('https://api.spark.io/v1/devices/%s/leds_upto' % (device_id,), headers=headers)
+    requests.post('https://api.spark.io/v1/devices/%s/leds_upto?access_token=%s' % (device_id, access_token,), data=payload)
 
 if __name__ == '__main__':
     args = parser.parse_args()
